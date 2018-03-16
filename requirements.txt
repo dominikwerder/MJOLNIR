@@ -3,4 +3,4 @@ pycodestyle
 pytest-cov
 python-coveralls
 matplotlib
-_pickle
+pickle
