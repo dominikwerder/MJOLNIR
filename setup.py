@@ -17,7 +17,7 @@ with open(os.path.join(_here, 'somepackage', 'version.py')) as f:
 
 setup(
     name='MJOLNIR',
-    version=version[1.0.0],
+    version=version[1.0],
     description=('Neutron Scattering software suite.'),
     long_description=long_description,
     author='Jakob Lass',
