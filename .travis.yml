@@ -38,18 +38,17 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION 
   - conda install -n test-environment -c mantid mantid-framework
   - source activate test-environment
-  - python setup.py install
 
   - pip install -r requirements.txt
 
 script: 
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]];
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
     then py.test MJOLNIR/ -vv --cov MJOLNIR;
     else py.test MJOLNIR/ -vv;
     fi
 
 after_success:
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]];
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
     then coveralls;
     fi
 
