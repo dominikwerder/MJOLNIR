@@ -54,7 +54,7 @@ cache:
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then eval (dpkg -L Mantid |grep mantidpython) mantidtest.py -vv --cov MJOLNIR;
+    then pytest mantidtest.py -vv --cov MJOLNIR;
     else sudo var=$(sudo dpkg -L Mantid |grep mantidpython); $var mantidtest.py -vv;
     fi
 
