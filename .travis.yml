@@ -5,6 +5,7 @@ language: python
 
 python:
   - "2.7"
+  - "3.6"
 
 
 
@@ -18,7 +19,7 @@ install:
 
   - sudo apt-add-repository "deb [arch=amd64] http://apt.isis.rl.ac.uk $(lsb_release -c | cut -f 2) main"
   - wget -O - http://apt.isis.rl.ac.uk/2E10C193726B7213.asc | sudo apt-key add -
-  - sudo apt-add-repository ppa:mantid/mantid
+  - sudo apt-add-repository ppa:mantid/mantid -y
   - sudo apt-get update
   - sudo apt-get install mantid
   # We do this conditionally because it saves us some downloading if the
@@ -43,11 +44,18 @@ install:
   #- source activate test-environment
 
   - pip install -r requirements.txt
+  - dpkg -L Mantid |grep mantidpython
+ # - MANTIDLOCATION : $(sudo dpkg  -L Mantid |grep mantidpython)
+ # - MANTIDLOCATION = $(dpkg  -L Mantid |grep mantidpython)
+
+cache:
+    directories:
+      - $MANTIDLOCATION
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then mantidpython mantidtest.py -vv --cov MJOLNIR;
-    else py.test MJOLNIR/ -vv;
+    then pytest mantidtest.py -vv --cov MJOLNIR;
+    else sudo var=$(sudo dpkg -L Mantid |grep mantidpython); $var mantidtest.py -vv;
     fi
 
 after_success:
