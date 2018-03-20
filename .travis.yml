@@ -44,12 +44,16 @@ install:
 
   - pip install -r requirements.txt
   - dpkg -L Mantid |grep mantidpython
-  - $MANTIDLOCATION = dpkg -L Mantid |grep mantidpython
+  - $MANTIDLOCATION = $(dpkg  -L Mantid |grep mantidpython)
+ # - MANTIDLOCATION = $(dpkg  -L Mantid |grep mantidpython)
 
+cache:
+    directories:
+      - $MANTIDLOCATION
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then $MANTIDLOCATION mantidtest.py -vv --cov MJOLNIR;
+    then eval $MANTIDLOCATION mantidtest.py -vv --cov MJOLNIR;
     else py.test MJOLNIR/ -vv;
     fi
 
