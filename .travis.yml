@@ -43,10 +43,13 @@ install:
   #- source activate test-environment
 
   - pip install -r requirements.txt
+  - dpkg -L Mantid |grep mantidpython
+  - MANTIDLOCATION = dpkg -L Mantid |grep mantidpython
+
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then /opt/Mantid/bin/mantidpython/mantidpython mantidtest.py -vv --cov MJOLNIR;
+    then $MANTIDLOCATION mantidtest.py -vv --cov MJOLNIR;
     else py.test MJOLNIR/ -vv;
     fi
 
