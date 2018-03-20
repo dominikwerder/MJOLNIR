@@ -9,6 +9,6 @@ Created on Tue Mar 20 22:27:24 2018
 import subprocess
 
 
-mantidPath = str(subprocess.check_output("dpkg -L Mantid |grep mantidpython", shell=True)[:-1])[2:-1]
+mantidPath = str(subprocess.check_output("dpkg -L Mantid |grep mantidpython", shell=True)[:-1])
 
 print(subprocess.check_output(mantidPath+' mantidtest.py',shell=True))
