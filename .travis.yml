@@ -5,11 +5,7 @@ language: python
 
 python:
   - "2.7"
-  - "3.6"
-
-
-
-
+  
 before_script: # configure a headless display to test plot generation
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -48,14 +44,12 @@ install:
  # - MANTIDLOCATION : $(sudo dpkg  -L Mantid |grep mantidpython)
  # - MANTIDLOCATION = $(dpkg  -L Mantid |grep mantidpython)
 
-cache:
-    directories:
-      - $MANTIDLOCATION
+
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then pytest mantidtest.py -vv --cov MJOLNIR;
-    else sudo var=$(sudo dpkg -L Mantid |grep mantidpython); $var mantidtest.py -vv;
+    then python Mantid.py;
+    else python Mantid.py;
     fi
 
 after_success:
