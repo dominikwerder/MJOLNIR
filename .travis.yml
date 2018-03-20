@@ -45,7 +45,7 @@ install:
 
   - pip install -r requirements.txt
   - dpkg -L Mantid |grep mantidpython
-  - MANTIDLOCATION : $(sudo dpkg  -L Mantid |grep mantidpython)
+ # - MANTIDLOCATION : $(sudo dpkg  -L Mantid |grep mantidpython)
  # - MANTIDLOCATION = $(dpkg  -L Mantid |grep mantidpython)
 
 cache:
@@ -54,8 +54,8 @@ cache:
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then $MANTIDLOCATION mantidtest.py -vv --cov MJOLNIR;
-    else eval $MANTIDLOCATION mantidtest.py -vv;
+    then eval (dpkg -L Mantid |grep mantidpython) mantidtest.py -vv --cov MJOLNIR;
+    else sudo var=$(sudo dpkg -L Mantid |grep mantidpython); $var mantidtest.py -vv;
     fi
 
 after_success:
