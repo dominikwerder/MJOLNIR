@@ -46,7 +46,7 @@ install:
 
 script: 
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
-    then mantidpython mantidtest.py -vv --cov MJOLNIR;
+    then /opt/Mantid/bin/mantidpython/mantidpython mantidtest.py -vv --cov MJOLNIR;
     else py.test MJOLNIR/ -vv;
     fi
 
