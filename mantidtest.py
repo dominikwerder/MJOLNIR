@@ -3,4 +3,14 @@ import numpy
 import mantid
 import mantid.simpleapi
 
-pytest.main(['-vv', 'MJOLNIR'])
+
+
+def main():
+    returns = pytest.main(['-vv', 'MJOLNIR'])
+
+    return returns
+
+if __name__ == '__main__':
+    main()
+
+
