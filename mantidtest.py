@@ -6,11 +6,13 @@ import mantid.simpleapi
 
 
 def main():
-    returns = pytest.main(['-vv', 'MJOLNIR'])
+    returns = pytest.main(['-vv --cov', 'MJOLNIR'])
 
     return returns
 
 if __name__ == '__main__':
-    main()
+    import sys
+    instanceId = main()
+    sys.exit(instanceId)
 
 
