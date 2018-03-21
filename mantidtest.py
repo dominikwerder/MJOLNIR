@@ -6,7 +6,7 @@ import mantid.simpleapi
 
 
 def main():
-    returns = pytest.main(['-vv --cov', 'MJOLNIR'])
+    returns = pytest.main(['-vv','--cov', 'MJOLNIR'])
 
     return returns
 
