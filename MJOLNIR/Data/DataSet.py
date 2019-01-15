@@ -65,16 +65,23 @@ class DataSet(object):
 
 
         if dataFiles is not None:
+            print("STORING: ", dataFiles)
             self.dataFiles = dataFiles
+            print(330, dataFiles)
+            print(331, self.dataFiles)
             self._getData()
+            print(332, self.dataFiles)
 
+        print(33, self.dataFiles)
         if normalizationfiles is not None:
             self.normalizationfiles = normalizationfiles
         
+        print(44, self.dataFiles)
         if convertedFiles is not None:
             self.convertedFiles = convertedFiles
             self._getData()
 
+        print(55, self.dataFiles)
         if calibrationfiles is not None:
             self.calibrationfiles = calibrationfiles
 
@@ -90,6 +97,7 @@ class DataSet(object):
         # Add all other kwargs to settings
         for key in kwargs:
             self.settings[key]=kwargs[key]
+        print(66, self.dataFiles)
         
     @property
     def dataFiles(self):
@@ -102,10 +110,15 @@ class DataSet(object):
     @dataFiles.setter
     def dataFiles(self,dataFiles):
         try:
+            print("k1")
             correctDataFiles = isListOfDataFiles(dataFiles)
+            print("k2", correctDataFiles)
             [self._dataFiles.append(file) for file in correctDataFiles if file.type=='hdf']
+            print("k3")
             [self._convertedFiles.append(file) for file in correctDataFiles if file.type=='nxs']
+            print("k4")
         except Exception as e:
+            print("CATCHED: ", e, dataFiles)
             raise(e)
 
 
@@ -219,6 +232,7 @@ class DataSet(object):
         """
 
 
+        print("self.convertDataFile", self.dataFiles)
         if dataFiles is None:
             if len(self.dataFiles)==0:
                 raise AttributeError('No data files file provided either through input of in the DataSet object.')
@@ -262,14 +276,19 @@ class DataSet(object):
             
     def _getData(self): # Internal method to populate I,qx,qy,energy,Norm and Monitor
         
+        print("123", self.convertedFiles)
         if len(self.convertedFiles)!=0:
             self.I,self.qx,self.qy,self.energy,self.Norm,self.Monitor,self.a3,self.a3Off,self.a4,self.a4Off,self.instrumentCalibrationEf, \
             self.instrumentCalibrationA4,self.instrumentCalibrationEdges,self.Ei,self.scanParameters,\
             self.scanParameterValues,self.scanParameterUnits,self.h,self.k,self.l = DataFile.extractData(self.convertedFiles)
         else:
-            self.I,self.Monitor,self.a3,self.a3Off,self.a4,self.a4Off,self.instrumentCalibrationEf, \
-            self.instrumentCalibrationA4,self.instrumentCalibrationEdges,self.Ei,self.scanParameters,\
-            self.scanParameterValues,self.scanParameterUnits = DataFile.extractData(self.dataFiles)
+            print(self.dataFiles)
+            if len(self.dataFiles) == 0:
+                print("len(self.dataFiles) == 0")
+            else:
+                self.I,self.Monitor,self.a3,self.a3Off,self.a4,self.a4Off,self.instrumentCalibrationEf, \
+                self.instrumentCalibrationA4,self.instrumentCalibrationEdges,self.Ei,self.scanParameters,\
+                self.scanParameterValues,self.scanParameterUnits = DataFile.extractData(self.dataFiles)
 
     @_tools.KwargChecker()
     def binData3D(self,dx,dy,dz,rlu=True,dataFiles=None):

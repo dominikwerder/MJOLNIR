@@ -1050,6 +1050,7 @@ def getInstrument(file):
     return file.get(location)
 
 def extractData(files):
+    print(files)
     if not isinstance(files,list):
         files = [files]
     I = []
