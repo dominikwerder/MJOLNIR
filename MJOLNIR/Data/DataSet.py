@@ -110,7 +110,7 @@ class DataSet(object):
     @dataFiles.setter
     def dataFiles(self,dataFiles):
         try:
-            print("k1")
+            print("k1", dataFiles)
             correctDataFiles = isListOfDataFiles(dataFiles)
             print("k2", correctDataFiles)
             [self._dataFiles.append(file) for file in correctDataFiles if file.type=='hdf']
@@ -3366,21 +3366,28 @@ def isListOfStrings(object):
 def isListOfDataFiles(inputFiles):
     returnList = []
     if isinstance(inputFiles,(list,np.ndarray)):
+        print("l1", inputFiles)
         for file in inputFiles:
             if isinstance(file,DataFile.DataFile):
+                print("l11")
                 returnList.append(file)
-            elif isinstance(file,str):
+            elif isinstance(file,str) or isinstance(file,unicode):
+                print("l12")
                 # Check if file exists
                 if not os.path.isfile(file):
                     raise AttributeError('Following file does not exist:\n{}'.format(file))
                 returnList.append(DataFile.DataFile(file))
     elif isinstance(inputFiles,DataFile.DataFile):
+        print("l2")
         returnList.append(inputFiles)
     elif isinstance(inputFiles,str):
+        print("l3")
         returnList.append(DataFile.DataFile(inputFiles))
     else:
+        print("l4")
         raise AttributeError('File provided is not of type string, list, or DataFile')
     if len(returnList)>1:
+        print("l5")
         sameSample = [returnList[0].sample==file.sample for file in returnList]
         if not np.all(sameSample):
             raise AttributeError('Files does not have the same sample! Compared to first entry: {}'.format(sameSample))
